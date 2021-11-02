@@ -9,8 +9,9 @@
     "node": true,
     "jest": true
   },
-  "extends": ["eslint:recommended"],
+  "extends": ["eslint:recommended", "prettier"],
   "rules": {
+    "prettier/prettier": "error",
     "no-console": "warn",
     "indent": [
       "error",
@@ -41,5 +42,6 @@
     "rest-spread-spacing": "error",
     "prefer-arrow-callback": "error",
     "object-shorthand": ["error", "always"]
-  }
+  },
+  "plugins": ["prettier"]
 }
