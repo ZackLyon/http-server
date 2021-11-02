@@ -1,4 +1,5 @@
 const bodyParser = require('../lib/body-parser.js');
+const EventEmitter = require('events');
 
 describe('body parser', () => {
   it('should return null if the method is not POST, PUT, or PATCH', async () => {
@@ -24,5 +25,20 @@ describe('body parser', () => {
     } catch (err) {
       expect(err).toEqual(expected);
     }
+  });
+
+  it('should return a deserialized body from req emitted events', async () => {
+    const req = new EventEmitter();
+    req.headers = {
+      'content-type': 'text/html',
+    };
+    req.method = 'POST';
+    const response = bodyParser(req);
+    req.emit('acc', '{"some":');
+    req.emit('acc', '"thing"}');
+    req.emit('end');
+
+    const responseBody = await response;
+    expect(responseBody).toEqual({ some: 'thing' });
   });
 });

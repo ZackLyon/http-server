@@ -9,7 +9,7 @@
     "node": true,
     "jest": true
   },
-  "extends": ["eslint:recommended", "prettier"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "rules": {
     "prettier/prettier": "error",
     "no-console": "warn",
