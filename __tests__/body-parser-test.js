@@ -30,7 +30,7 @@ describe('body parser', () => {
   it('should return a deserialized body from req emitted events', async () => {
     const req = new EventEmitter();
     req.headers = {
-      'content-type': 'text/html',
+      'content-type': 'application/json',
     };
     req.method = 'POST';
     const response = bodyParser(req);
@@ -40,5 +40,22 @@ describe('body parser', () => {
 
     const responseBody = await response;
     expect(responseBody).toEqual({ some: 'thing' });
+  });
+
+  it('should throw "Bad JSON during parse" if deserialization has a failure', async () => {
+    const req = new EventEmitter();
+    req.headers = {
+      'content-type': 'application/json',
+    };
+    req.method = 'POST';
+    const response = bodyParser(req);
+    req.emit('acc', '{ garbage }');
+    req.emit('end');
+
+    try {
+      await response;
+    } catch (err) {
+      expect(err).toEqual('Bad JSON during parse');
+    }
   });
 });

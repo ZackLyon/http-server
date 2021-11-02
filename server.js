@@ -3,4 +3,4 @@ const app = require('./lib/app').default;
 
 const server = http.createServer(app);
 
-server.listen(7890, () => console.log('server is running'));
+server.listen(7890);
