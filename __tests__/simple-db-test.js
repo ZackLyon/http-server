@@ -71,4 +71,16 @@ describe('make folder', () => {
     const actual = await newDB.get(expected.id);
     expect(actual).toEqual(expected);
   });
+
+  it('should delete an object from the db given the id', async () => {
+    const newDB = new SimpleDB(rootDir);
+
+    const something = { some: 'thing', something: 'else' };
+
+    await newDB.save(something);
+    await newDB.delete(something.id);
+    const actual = await newDB.get(something.id);
+
+    expect(actual).toBeNull();
+  });
 });
