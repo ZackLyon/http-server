@@ -74,4 +74,16 @@ describe('coffee CRUD API', () => {
       origin: 'Ethiopia',
     });
   });
+
+  it('deletes a coffee database entry with given id', async () => {
+    const coffee = { brand: 'Coava', name: 'Anbessa', origin: 'Ethiopia' };
+    const db = new SimpleDB(rootDir);
+    await db.save(coffee);
+
+    await request(app).delete(`/coffees/${coffee.id}`);
+
+    const response = await db.get(coffee.id);
+
+    expect(response).toBeNull;
+  });
 });
