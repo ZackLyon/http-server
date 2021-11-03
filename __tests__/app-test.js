@@ -34,4 +34,26 @@ describe('coffee CRUD API', () => {
 
     expect(response.body).toEqual(coffee);
   });
+
+  it('gets all coffee database entries when no id specified', async () => {
+    const coava = { brand: 'Coava', name: 'Los Naranjos', origin: 'Mexico' };
+    const intelligentsia = {
+      brand: 'Intelligentsia',
+      name: 'Ndumberi',
+      origin: 'Kenya',
+    };
+    const heart = {
+      brand: 'heart',
+      name: 'Wuri',
+      origin: 'Ethiopia',
+    };
+    const db = new SimpleDB(rootDir);
+    Promise.all([db.save(coava), db.save(intelligentsia), db.save(heart)]);
+
+    const response = await request(app).get('/coffees');
+
+    expect(response.body).toEqual(
+      expect.arrayContaining([coava, intelligentsia, heart])
+    );
+  });
 });
