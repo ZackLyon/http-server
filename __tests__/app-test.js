@@ -65,9 +65,13 @@ describe('coffee CRUD API', () => {
     coffee.name = 'Meaza';
 
     const response = await request(app)
-      .update(`/coffees/${coffee.id}`)
+      .put(`/coffees/${coffee.id}`)
       .send({ brand: 'Coava', name: 'Meaza', origin: 'Ethiopia' });
 
-    expect(response.body).toEqual(coffee);
+    expect(response.body).toEqual({
+      brand: 'Coava',
+      name: 'Meaza',
+      origin: 'Ethiopia',
+    });
   });
 });
