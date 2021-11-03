@@ -1,4 +1,4 @@
-const bodyParser = require('../lib/body-parser.js');
+const bodyParser = require('../lib/body-parser');
 const EventEmitter = require('events');
 
 describe('body parser', () => {
@@ -34,8 +34,8 @@ describe('body parser', () => {
     };
     req.method = 'POST';
     const response = bodyParser(req);
-    req.emit('acc', '{"some":');
-    req.emit('acc', '"thing"}');
+    req.emit('data', '{"some":');
+    req.emit('data', '"thing"}');
     req.emit('end');
 
     const responseBody = await response;
