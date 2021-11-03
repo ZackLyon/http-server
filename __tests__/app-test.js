@@ -56,4 +56,18 @@ describe('coffee CRUD API', () => {
       expect.arrayContaining([coava, intelligentsia, heart])
     );
   });
+
+  it('updates a coffee database entry with given id', async () => {
+    const coffee = { brand: 'Coava', name: 'Anbessa', origin: 'Ethiopia' };
+    const db = new SimpleDB(rootDir);
+    await db.save(coffee);
+
+    coffee.name = 'Meaza';
+
+    const response = await request(app)
+      .update(`/coffees/${coffee.id}`)
+      .send({ brand: 'Coava', name: 'Meaza', origin: 'Ethiopia' });
+
+    expect(response.body).toEqual(coffee);
+  });
 });
