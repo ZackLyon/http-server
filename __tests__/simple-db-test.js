@@ -58,4 +58,17 @@ describe('make folder', () => {
         expect(expected).toEqual(expect.arrayContaining(results))
       );
   });
+
+  it('should update an object from the db with given id', async () => {
+    const newDB = new SimpleDB(rootDir);
+
+    const expected = { some: 'thing', something: 'else' };
+    await newDB.save(expected);
+
+    expected.something = 'elseEntirely';
+    await newDB.update(expected);
+
+    const actual = await newDB.get(expected.id);
+    expect(actual).toEqual(expected);
+  });
 });
